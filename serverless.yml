@@ -26,3 +26,6 @@ functions:
       - http:
           path: /api
           method: get
+      - http:
+          path: /api/signup
+          method: post
