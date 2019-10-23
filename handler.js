@@ -43,4 +43,47 @@ app.post('/api/signup', function (req, res) {
   });
 });
 
+app.post('/api/login', function (req, res) {
+  var body = req.body;
+  var authenticationData = {
+    Username: body['email'],
+    Password: body['password'],
+  };
+  var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+      authenticationData
+  );
+  var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  var userData = {
+      Username: body['email'],
+      Pool: userPool,
+  };
+  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: function(result) {
+          console.log('access token : ' + result.getAccessToken().getJwtToken());
+          console.log('id token : ' + result.getIdToken().getJwtToken());
+          console.log('refresh token : ' + result.getRefreshToken().getToken());
+          console.log(cognitoUser)
+          cognitoUser.getUserAttributes(function(err, result) {
+            if (err) {
+                res.status(200).json({ "status": 0, "message": "User Attribute fetch failed "+err });
+                return;
+            }
+            console.log(result)
+            for (i = 0; i < result.length; i++) {
+                console.log(
+                    'attribute ' + result[i].getName() + ' has value ' + result[i].getValue()
+                );
+            }
+            console.log('Successfully logged!');
+            res.status(200).json({ "status": 1, "message": "user logged in successfully" });
+        });
+      },
+      onFailure: function(err) {
+        res.status(200).json({ "status": 0, "message": "User login failed "+err });
+      },
+  });
+});
+
+
 module.exports.handler = serverless(app);
