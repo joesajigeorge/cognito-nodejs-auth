@@ -4,21 +4,6 @@ provider:
   runtime: nodejs10.x
   region: us-east-1
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
 functions:
   hello:
     handler: handler.handler
@@ -32,3 +17,6 @@ functions:
       - http:
           path: /api/login
           method: post
+      - http:
+          path: /api/helloworld
+          method: get

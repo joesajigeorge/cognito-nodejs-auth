@@ -13,6 +13,8 @@ const jwkToPem = require('jwk-to-pem');
 const jwt = require('jsonwebtoken');
 global.fetch = require('node-fetch');
 
+const jwt_val = require('./middleware/jwt-validator'); 
+
 const { poolData, pool_region } = require('./cognito-config');
 
 app.use(cors());
@@ -63,21 +65,8 @@ app.post('/api/login', function (req, res) {
           console.log('access token : ' + result.getAccessToken().getJwtToken());
           console.log('id token : ' + result.getIdToken().getJwtToken());
           console.log('refresh token : ' + result.getRefreshToken().getToken());
-          console.log(cognitoUser)
-          cognitoUser.getUserAttributes(function(err, result) {
-            if (err) {
-                res.status(200).json({ "status": 0, "message": "User Attribute fetch failed "+err });
-                return;
-            }
-            console.log(result)
-            for (i = 0; i < result.length; i++) {
-                console.log(
-                    'attribute ' + result[i].getName() + ' has value ' + result[i].getValue()
-                );
-            }
-            console.log('Successfully logged!');
-            res.status(200).json({ "status": 1, "message": "user logged in successfully" });
-        });
+          console.log('Successfully logged!');
+          res.status(200).json({ "status": 1, "message": "user logged in successfully ", "data": result.getIdToken().getJwtToken()});
       },
       onFailure: function(err) {
         res.status(200).json({ "status": 0, "message": "User login failed "+err });
@@ -85,5 +74,9 @@ app.post('/api/login', function (req, res) {
   });
 });
 
+app.get('/api/helloworld', jwt_val.default(), function (req, res) {
+  console.log("Hello Simulated World");
+  res.status(200).json({ "status": 1, "message": "Hello Simulated World" });
+});
 
 module.exports.handler = serverless(app);
