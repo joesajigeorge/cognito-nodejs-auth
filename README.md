@@ -1,4 +1,6 @@
-# cognito-nodejs
+# Cognito NodeJS
+
+![](https://image-publiclink.s3.amazonaws.com/aws-logo.png)
 
 This project is created to understand cognito authentication.
 
