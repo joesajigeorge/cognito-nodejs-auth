@@ -8,16 +8,16 @@ exports.default = () => {
         const decodedJwt = jwt.decode(req.headers['authorization'], {complete: true});
         //console.log(decodedJwt);
         if (!decodedJwt) {
-            throw new Error('Not a valid JWT Token');
+            res.status(200).json({ "status": 0, "message": "Not a valid JWT Token" });
         }
         if (decodedJwt.payload.iss !== 'https://cognito-idp.'+pool_region+'.amazonaws.com/'+poolData.UserPoolId) {
-            throw new Error('Invalid issuer: ' + decodedJwt.payload.iss);
+            res.status(200).json({ "status": 0, "message": 'Invalid issuer: ' + decodedJwt.payload.iss });
         }
         if (!(decodedJwt.payload.token_use === 'id')) {
-            throw new Error('Invalid token_use: ' + decodedJwt.payload.token_use);
+            res.status(200).json({ "status": 0, "message": 'Invalid token_use: ' + decodedJwt.payload.token_use });
         }
         if (decodedJwt.payload.aud !== poolData.ClientId) {
-            throw new Error('Invalid aud: ' + decodedJwt.payload.aud);
+            res.status(200).json({ "status": 0, "message": 'Invalid aud: ' + decodedJwt.payload.aud });
         }
         request({url: 'https://cognito-idp.us-east-1.amazonaws.com/'+poolData.UserPoolId+'/.well-known/jwks.json', json: true}, (error, response, body) => {
             if (!error && response.statusCode === 200) {
@@ -36,19 +36,19 @@ exports.default = () => {
                 var kid = decodedJwt.header.kid;
                 var pem = pems[kid];
                 if (!pem) {
-                    console.log('Invalid token');
-                    context.fail("Unauthorized");
+                    //context.fail("Unauthorized");
+                    res.status(200).json({ "status": 0, "message": "Invalid token: Unauthorized" });
                     return;
                 }
-                jwt.verify(req.headers['authorization'], pem, function (err, decoded) {
+                jwt.verify(req.headers['authorization'], pem, (err, decoded) => {
                     if (err) {
-                        throw new Error('Validation failed: ', err)
+                        res.status(200).json({ "status": 0, "message": "Token validation failed" });
                     }  
                     console.log("JWT Validation passed");
                     next();
                 });
             } else {
-                throw new Error('JWK json download failed');
+                res.status(200).json({ "status": 0, "message": "JWK json download failed" });
             }
         });
         };

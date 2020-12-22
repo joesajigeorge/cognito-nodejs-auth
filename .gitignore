@@ -4,6 +4,3 @@ jspm_packages
 
 # Serverless directories
 .serverless
-
-#config files
-cognito-config.js
