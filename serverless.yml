@@ -1,11 +1,11 @@
-service: cognito-nodejs
+service: cognito-auth-nodejs
 provider:
   name: aws
   runtime: nodejs10.x
   region: us-east-1
 
 functions:
-  hello:
+  auth-services:
     handler: handler.handler
     events:
       - http:
@@ -15,8 +15,29 @@ functions:
           path: /api/signup
           method: post
       - http:
-          path: /api/login
+          path: /api/signin
+          method: post
+      - http:
+          path: /api/signout
+          method: post
+      - http:
+          path: /api/confirmotp
+          method: post
+      - http:
+          path: /api/resendotp
+          method: post
+      - http:
+          path: /api/changepassword
+          method: post
+      - http:
+          path: /api/forgotpassword
+          method: post
+      - http:
+          path: /api/confirmforgotpassword
           method: post
       - http:
           path: /api/helloworld
           method: get
+
+plugins:
+  - serverless-offline
