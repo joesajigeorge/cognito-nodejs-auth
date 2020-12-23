@@ -13,6 +13,8 @@ const jwt_val = require('./middleware/jwt-validator');
 
 const { poolData } = require('./cognito-config');
 
+var MongoClient = require('mongodb').MongoClient
+  , format = require('util').format;
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({
@@ -185,8 +187,40 @@ app.post('/api/confirmforgotpassword', (req, res) => {
   });
 });
 
-app.get('/api/helloworld', jwt_val.default(), (req, res) => {
-  res.status(200).json({ "status": 1, "message": "Hello Simulated World" });
+app.post('/api/addprofiledata', jwt_val.default(), (req, res) => {
+  var body = req.body;
+  const uri = "mongodb+srv://<username>:<password>@<host>/<database>?retryWrites=true&w=majority";
+  MongoClient.connect(uri, (err, client) => {
+  if (err) {
+    res.status(200).json({ "status": 0, "message": "Failed to add profile", "data": err });
+  }
+  var db = client.db('test');
+  db.collection('test').insertOne({name: body.name, age: body.age}, {}, (err, object) => {
+        if (err){
+          res.status(200).json({ "status": 0, "message": "Failed to add the profile details"});
+        } else{
+          res.status(200).json({ "status": 1, "message": "Successfully added the profile details" });
+        }
+    });
+  });
+});
+
+app.get('/api/getprofiledata', jwt_val.default(), (req, res) => {
+  const uri = "mongodb+srv://<username>:<password>@<host>/<database>?retryWrites=true&w=majority";
+  MongoClient.connect(uri, (err, client) => {
+  if (err) {
+    res.status(200).json({ "status": 0, "message": "Failed to add profile", "data": err });
+  }
+  var db = client.db('test');
+
+  db.collection('test').findOne({}, (err, object) => {
+        if (err){
+          res.status(200).json({ "status": 0, "message": "Failed to get the profile details"});
+        } else{
+          res.status(200).json({ "status": 1, "message": "Successfully displayed the profile details", "data": object });
+        }
+    });
+  });
 });
 
 module.exports.handler = serverless(app);

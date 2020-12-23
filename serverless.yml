@@ -36,7 +36,10 @@ functions:
           path: /api/confirmforgotpassword
           method: post
       - http:
-          path: /api/helloworld
+          path: /api/addprofiledata
+          method: post
+      - http:
+          path: /api/getprofiledata
           method: get
 
 plugins:
