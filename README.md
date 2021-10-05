@@ -1,4 +1,4 @@
-# Cognito NodeJS
+# Cognito NodeJS Authentication
 
 ![](https://image-publiclink.s3.amazonaws.com/aws-logo.png)
 
@@ -6,13 +6,25 @@ This project is created to understand cognito authentication.
 
 ## prerequisite
 
-Create a file cognito-config.js in the root of the project and add the following data.
+Install the npm Packages
 
-        exports.poolData = {    
-            UserPoolId : "", // Your user pool id here    
-            ClientId : "" // Your client id here
-            }; 
-        exports.pool_region = ''; //AWS region
+    npm install
+
+Update the environment vaiables <USERPOOL_ID>, <CLIENT_ID>, <REGION> in the serverless.yml file.
+
+## Deployment
+
+Deploy the application
+
+    sls deploy
+
+The application will be deployed to the default aws account in the aws configuration. You can also deploy to a particular profile.
+
+    sls --aws-profile < Profile Name > deploy
+
+The application can also be run locally using serverless-offline plugin.
+
+    sls offline
 
 ## Reference 
 - https://medium.com/@prasadjay/amazon-cognito-user-pools-in-nodejs-as-fast-as-possible-22d586c5c8ec
