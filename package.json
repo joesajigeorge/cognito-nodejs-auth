@@ -1,37 +1,35 @@
 {
-  "name": "cognito-nodejs",
+  "name": "cognito-nodejs-auth",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "local-serve": "sudo sls offline",
+    "offline": "sudo sls offline",
     "deploy": "sudo sls deploy",
     "remove": "sudo sls remove"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joesajigeorge/cognito-nodejs.git"
+    "url": "git+https://github.com/joesajigeorge/cognito-nodejs-auth.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joesajigeorge/cognito-nodejs/issues"
+    "url": "https://github.com/joesajigeorge/cognito-nodejs-auth/issues"
   },
-  "homepage": "https://github.com/joesajigeorge/cognito-nodejs#readme",
+  "homepage": "https://github.com/joesajigeorge/cognito-nodejs-auth#readme",
   "dependencies": {
-    "amazon-cognito-identity-js": "^3.1.2",
-    "aws-sdk": "^2.553.0",
+    "amazon-cognito-identity-js": "^5.2.0",
+    "aws-sdk": "^2.1000.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "jwk-to-pem": "^2.0.1",
-    "node-fetch": "^2.6.0",
-    "request": "^2.88.0",
-    "serverless-http": "^2.3.0"
-  },
-  "devDependencies": {
-    "serverless-offline": "^6.8.0"
+    "jwk-to-pem": "^2.0.5",
+    "node-fetch": "^3.0.0",
+    "request": "^2.88.2",
+    "serverless-http": "^2.7.0",
+    "serverless-offline": "^8.2.0"
   }
 }

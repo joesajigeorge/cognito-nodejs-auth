@@ -1,6 +1,6 @@
 const jwkToPem = require('jwk-to-pem');
 const jwt = require('jsonwebtoken');
-const { poolData, pool_region } = require('../cognito-config');
+const { poolData, pool_region } = require('../config/cognito-config');
 const request = require('request');
 
 exports.default = () => {
