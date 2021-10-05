@@ -1,4 +1,4 @@
-# Cognito NodeJS
+# Cognito NodeJS Authentication
 
 ![](https://image-publiclink.s3.amazonaws.com/aws-logo.png)
 
